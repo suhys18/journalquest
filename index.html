@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Dopamine-Growth Journal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #334155; /* Darker text */
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .section-title {
+            font-size: 1.75rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #1e293b; /* slate-900 */
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600; /* font-semibold */
+            color: #475569; /* slate-600 */
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1; /* border-slate-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-bottom: 1rem;
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            font-weight: 600; /* font-semibold */
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        .btn-primary {
+            background-color: #3b82f6; /* blue-500 */
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* blue-600 */
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0; /* slate-200 */
+            color: #475569; /* slate-600 */
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1; /* slate-300 */
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background-color: #ef4444; /* red-500 */
+            color: #ffffff;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* red-600 */
+            transform: translateY(-2px);
+        }
+        .nav-btn {
+            flex-grow: 1;
+            text-align: center;
+            padding: 0.75rem 0;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease-in-out;
+            background-color: #e2e8f0; /* slate-200 */
+            color: #475569; /* slate-600 */
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Add ellipsis if text is too long */
+        }
+        .nav-btn.active {
+            background-color: #3b82f6; /* blue-500 */
+            color: #ffffff;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+        .nav-btn:hover:not(.active) {
+            background-color: #cbd5e1; /* slate-300 */
+        }
+        .card {
+            background-color: #f8fafc; /* slate-50 */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        .summary-box {
+            background-color: #eff6ff; /* blue-50 */
+            border: 1px solid #bfdbfe; /* blue-200 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .summary-item {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e40af; /* blue-800 */
+        }
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f0f9ff; /* sky-50 */
+            border: 1px solid #bae6fd; /* sky-200 */
+            border-radius: 0.5rem;
+        }
+        .achievement-item span:first-child {
+            font-size: 1.5rem; /* text-2xl */
+            margin-right: 0.75rem;
+        }
+        .achievement-item span:last-child {
+            font-weight: 600;
+            color: #0c4a6e; /* sky-900 */
+        }
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e2e8f0; /* slate-200 */
+            border-radius: 0.5rem;
+            height: 1.5rem;
+            overflow: hidden;
+            margin-top: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #3b82f6; /* blue-500 */
+            border-radius: 0.5rem;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            line-height: 1.5rem;
+            transition: width 0.5s ease-in-out;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .mood-selector button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .mood-selector button.selected {
+            background-color: #3b82f6;
+            border-color: #2563eb;
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .mood-selector button:hover:not(.selected) {
+            background-color: #cbd5e1;
+        }
+        .goal-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .goal-item.completed {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #86efac; /* green-300 */
+            text-decoration: line-through;
+            color: #16a34a; /* green-600 */
+        }
+        .goal-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: #22c55e;
+        }
+        .goal-item span {
+            flex-grow: 1;
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .modal-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        .modal-content p {
+            margin-bottom: 1.5rem;
+            color: #475569;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container">
+        <h1 class="text-4xl font-extrabold text-center text-blue-700 mb-8">🚀 Growth Journal RPG 🎯</h1>
+
+        <!-- Navigation Buttons -->
+        <div class="flex space-x-2 md:space-x-4 mb-8 p-2 bg-slate-100 rounded-xl shadow-inner overflow-x-auto">
+            <button id="navAddEntry" class="nav-btn active">Add Entry</button>
+            <button id="navViewJournal" class="nav-btn">Journal</button>
+            <button id="navGameStats" class="nav-btn">Game Stats</button>
+            <button id="navInsights" class="nav-btn">Insights</button>
+            <button id="navSettings" class="nav-btn">Settings</button>
+        </div>
+
+        <!-- Sections -->
+        <div id="addEntrySection" class="content-section">
+            <h2 class="section-title">Add New Daily Entry</h2>
+            <form id="dailyEntryForm" class="grid grid-cols-1 gap-4">
+                <div>
+                    <label for="entryDateInput" class="form-label">Date:</label>
+                    <input type="date" id="entryDateInput" class="form-input" required>
+                </div>
+                <div>
+                    <label for="dailyMood" class="form-label">Daily Mood:</label>
+                    <div id="moodSelector" class="flex justify-around space-x-2 mood-selector mb-4">
+                        <button type="button" data-mood="1" class="mood-btn">😞</button>
+                        <button type="button" data-mood="2" class="mood-btn">😐</button>
+                        <button type="button" data-mood="3" class="mood-btn">🙂</button>
+                        <button type="button" data-mood="4" class="mood-btn">😁</button>
+                        <button type="button" data-mood="5" class="mood-btn">🤩</button>
+                    </div>
+                    <input type="hidden" id="dailyMoodValue" required>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="dailyGoalsInput" class="form-label">Daily Goals (one per line, optional):</label>
+                    <textarea id="dailyGoalsInput" class="form-textarea" rows="3" placeholder="e.g.,&#10;Finish project report&#10;Go for a run&#10;Read 30 mins"></textarea>
+                </div>
+                <div class="md:col-span-2 flex justify-center mt-4">
+                    <button type="submit" class="btn btn-primary w-full md:w-auto">Save Daily Info</button>
+                </div>
+            </form>
+
+            <hr class="my-8 border-slate-300">
+
+            <h3 class="text-2xl font-bold text-center text-slate-800 mb-4">Add Task for <span id="currentTaskDate"></span></h3>
+            <form id="taskForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label for="taskDescription" class="form-label">Task Description:</label>
+                    <input type="text" id="taskDescription" class="form-input" placeholder="e.g., Solved LeetCode problem" required>
+                </div>
+                <div>
+                    <label for="dopamineLevel" class="form-label">Dopamine Level (1-5):</label>
+                    <select id="dopamineLevel" class="form-select" required>
+                        <option value="1">1 💧 (Barely there, like a sip of water)</option>
+                        <option value="2">2 😊 (Mild satisfaction, a pleasant hum)</option>
+                        <option value="3">3 🤩 (Good vibes, a noticeable pick-me-up)</option>
+                        <option value="4">4 🚀 (High energy, a real rush!)</option>
+                        <option value="5">5 🤯 (Explosive joy, like hitting a jackpot!)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="impactSign" class="form-label">Impact on Growth:</label>
+                    <select id="impactSign" class="form-select" required>
+                        <option value="+">📈 Good (+)</option>
+                        <option value="-">📉 Bad (-)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="timeTaken" class="form-label">Time Taken (minutes):</label>
+                    <input type="number" id="timeTaken" class="form-input" min="0" value="0" required>
+                </div>
+                <div>
+                    <label for="physicalActivity" class="form-label">Physical Activity (1-5):</label>
+                    <select id="physicalActivity" class="form-select" required>
+                        <option value="1">1 (Minimal movement, e.g., typing)</option>
+                        <option value="2">2 (Light activity, e.g., short walk)</option>
+                        <option value="3">3 (Moderate activity, e.g., brisk walk, chores)</option>
+                        <option value="4">4 (Significant activity, e.g., jogging, cycling)</option>
+                        <option value="5">5 (Intense activity, e.g., 45min football, heavy workout)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="brainActivity" class="form-label">Brain Activity (1-5):</label>
+                    <select id="brainActivity" class="form-select" required>
+                        <option value="1">1 (Passive consumption, e.g., comprehending a comment)</option>
+                        <option value="2">2 (Light engagement, e.g., casual reading, simple planning)</option>
+                        <option value="3">3 (Moderate focus, e.g., learning new concept, light problem-solving)</option>
+                        <option value="4">4 (High concentration, e.g., complex reading, strategic planning)</option>
+                        <option value="5">5 (Intense focus, e.g., 3hrs hardcore problem solving, coding, deep work)</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2 flex justify-center mt-4">
+                    <button type="submit" class="btn btn-primary w-full md:w-auto">Add Task</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="viewJournalSection" class="content-section hidden">
+            <h2 class="section-title">Your Growth Journal</h2>
+            <div class="flex justify-center mb-4">
+                <label for="journalDateFilter" class="form-label mr-2 self-center">Filter by Date:</label>
+                <input type="date" id="journalDateFilter" class="form-input w-auto">
+                <button id="clearJournalFilterBtn" class="btn btn-secondary ml-2">Clear Filter</button>
+            </div>
+            <div id="journalEntriesList">
+                <!-- Journal entries will be dynamically loaded here -->
+                <p class="text-center text-slate-500">No entries yet. Add some tasks!</p>
+            </div>
+        </div>
+
+        <div id="gameStatsSection" class="content-section hidden">
+            <h2 class="section-title">Your Game Stats</h2>
+            <div class="summary-box">
+                <p class="summary-item">Current Level: <span id="currentLevel"></span> <span id="levelUpEmoji"></span></p>
+                <div class="progress-bar-container">
+                    <div id="levelProgressBar" class="progress-bar" style="width: 0%;">0%</div>
+                </div>
+                <p class="summary-item mt-4">Total Growth Score: <span id="totalGrowthScore"></span> <span id="totalScoreEmoji"></span></p>
+                <p class="summary-item">Current Streak: <span id="currentStreak"></span> days <span id="streakEmoji"></span></p>
+            </div>
+
+            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Unlocked Achievements</h3>
+            <div id="unlockedAchievementsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Unlocked achievements will be dynamically loaded here -->
+                <p class="text-center text-slate-500 md:col-span-2">No achievements unlocked yet. Keep growing!</p>
+            </div>
+        </div>
+
+        <div id="insightsSection" class="content-section hidden">
+            <h2 class="section-title">Growth Insights</h2>
+            <div class="summary-box mb-8">
+                <h3 class="text-xl font-bold text-blue-800 mb-4">Overall Trends</h3>
+                <p class="summary-item">Average Daily Score: <span id="avgDailyScore">N/A</span></p>
+                <p class="summary-item">Average Daily Tasks: <span id="avgDailyTasks">N/A</span></p>
+                <p class="summary-item">Most Common Positive Mood: <span id="mostCommonPositiveMood">N/A</span></p>
+            </div>
+
+            <h3 class="text-xl font-bold text-center text-slate-800 mb-4">Summaries by Period</h3>
+            <div class="flex justify-center space-x-4 mb-4">
+                <button id="getWeeklySummaryBtn" class="btn btn-secondary">Weekly Summary</button>
+                <button id="getMonthlySummaryBtn" class="btn btn-secondary">Monthly Summary</button>
+            </div>
+            <div id="periodSummaryOutput" class="summary-box hidden">
+                <!-- Weekly/Monthly summary will be displayed here -->
+            </div>
+
+            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Top & Bottom Tasks</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h4 class="text-lg font-semibold text-green-700 mb-2">Top 3 Growth Tasks:</h4>
+                    <ul id="topTasksList" class="list-disc list-inside text-slate-700">
+                        <!-- Top tasks will be here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-red-700 mb-2">Bottom 3 Growth Tasks:</h4>
+                    <ul id="bottomTasksList" class="list-disc list-inside text-slate-700">
+                        <!-- Bottom tasks will be here -->
+                    </ul>
+                </div>
+            </div>
+            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Activity Distribution</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h4 class="text-lg font-semibold text-blue-700 mb-2">Physical Activity Levels:</h4>
+                    <ul id="physicalActivityDistributionList" class="list-disc list-inside text-slate-700"></ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-blue-700 mb-2">Brain Activity Levels:</h4>
+                    <ul id="brainActivityDistributionList" class="list-disc list-inside text-slate-700"></ul>
+                </div>
+            </div>
+            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Mood Distribution</h3>
+            <ul id="moodDistributionList" class="list-disc list-inside text-slate-700 text-center"></ul>
+        </div>
+
+        <div id="settingsSection" class="content-section hidden">
+            <h2 class="section-title">Settings & Data</h2>
+
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Scoring Weights</h3>
+                <p class="text-slate-600 mb-4">Adjust how much each factor contributes to your Growth Score. Higher values mean more impact.</p>
+                <form id="weightsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="weightTimeTaken" class="form-label">Time Taken (per minute):</label>
+                        <input type="number" id="weightTimeTaken" class="form-input" step="0.1" min="0" required>
+                    </div>
+                    <div>
+                        <label for="weightPhysicalActivity" class="form-label">Physical Activity (per level):</label>
+                        <input type="number" id="weightPhysicalActivity" class="form-input" step="1" min="0" required>
+                    </div>
+                    <div>
+                        <label for="weightBrainActivity" class="form-label">Brain Activity (per level):</label>
+                        <input type="number" id="weightBrainActivity" class="form-input" step="1" min="0" required>
+                    </div>
+                    <div>
+                        <label for="weightDopaminePenalty" class="form-label">Dopamine Penalty (per level):</label>
+                        <input type="number" id="weightDopaminePenalty" class="form-input" step="1" min="0" required>
+                    </div>
+                    <div>
+                        <label for="weightGoalCompletionBonus" class="form-label">Goal Completion Bonus:</label>
+                        <input type="number" id="weightGoalCompletionBonus" class="form-input" step="1" min="0" required>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center mt-4">
+                        <button type="submit" class="btn btn-primary w-full md:w-auto">Update Weights</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3 class="text-xl font-bold text-slate-800 mb-4">Data Management</h3>
+                <div class="flex flex-col space-y-4">
+                    <button id="exportDataBtn" class="btn btn-secondary">Export Data (Download JSON)</button>
+                    <div>
+                        <label for="importFileInput" class="form-label">Import Data (Upload JSON):</label>
+                        <input type="file" id="importFileInput" accept=".json" class="form-input p-2 h-auto">
+                        <button id="importDataBtn" class="btn btn-secondary mt-2 w-full">Load Data from File</button>
+                    </div>
+                    <button id="clearAllDataBtn" class="btn btn-danger">Clear All Journal Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Message Box -->
+    <div id="messageBox" class="message-box"></div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Confirm Action</h3>
+            <p id="modalMessage">Are you sure you want to proceed?</p>
+            <div class="modal-buttons">
+                <button id="modalConfirmBtn" class="btn btn-danger">Yes, I'm Sure</button>
+                <button id="modalCancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Configuration for Scoring Weights (Default Values) ---
+        let SCORING_WEIGHTS = {
+            "time_taken": 0.5,
+            "physical_activity": 10,
+            "brain_activity": 15,
+            "dopamine_penalty": 5,
+            "goal_completion_bonus": 50
+        };
+
+        // --- Emoji Mappings for Visual Feedback ---
+        const EMOJIS = {
+            "dopamine": {
+                1: "💧",
+                2: "😊",
+                3: "🤩",
+                4: "🚀",
+                5: "🤯"
+            },
+            "impact": {
+                "+": "📈",
+                "-": "📉"
+            },
+            "score_sentiment": {
+                "very_positive": "🌟",
+                "positive": "✅",
+                "neutral": "😐",
+                "negative": "❌",
+                "very_negative": "💀"
+            },
+            "mood": {
+                1: "😞",
+                2: "😐",
+                3: "🙂",
+                4: "😁",
+                5: "🤩"
+            },
+            "level_up": "⬆️",
+            "streak": "🔥",
+            "achievement": "🏆",
+            "goal_completed": "🎯"
+        };
+
+        // --- Game Progression Configuration ---
+        const LEVEL_THRESHOLDS = {
+            0: "Novice",
+            100: "Apprentice",
+            500: "Journeyman",
+            1500: "Adept",
+            3000: "Master",
+            5000: "Grandmaster",
+            10000: "Legend"
+        };
+
+        const ACHIEVEMENTS = [
+            {"name": "First Step", "threshold": 10, "type": "cumulative_score", "emoji": "🐣"},
+            {"name": "Growth Sprout", "threshold": 100, "type": "cumulative_score", "emoji": "🌱"},
+            {"name": "Productivity Pioneer", "threshold": 500, "type": "cumulative_score", "emoji": "🧭"},
+            {"name": "Mind Marathoner", "threshold": 1500, "type": "cumulative_score", "emoji": "🧠"},
+            {"name": "Dopamine Dominator", "threshold": 3000, "type": "cumulative_score", "emoji": "👑"},
+            {"name": "Unstoppable Force", "threshold": 5000, "type": "cumulative_score", "emoji": "✨"},
+            {"name": "7-Day Streak", "threshold": 7, "type": "streak", "emoji": "🗓️"},
+            {"name": "Brainiac", "threshold": 20, "type": "total_brain_activity", "emoji": "💡"},
+            {"name": "Fitness Fanatic", "threshold": 20, "type": "total_physical_activity", "emoji": "💪"},
+            {"name": "Goal Getter", "threshold": 10, "type": "goals_completed", "emoji": "✅"},
+            {"name": "Consistent Journaler", "threshold": 30, "type": "days_logged", "emoji": "✍️"} // New: Log 30 distinct days
+        ];
+
+        // --- Journal Classes (JavaScript Equivalent) ---
+        class JournalEntry {
+            constructor(date, taskDescription, dopamineLevel, impactSign,
+                        timeTakenMinutes, physicalActivity, brainActivity) {
+                this.date = date;
+                this.taskDescription = taskDescription;
+                this.dopamineLevel = dopamineLevel;
+                this.impactSign = impactSign;
+                this.timeTakenMinutes = timeTakenMinutes;
+                this.physicalActivity = physicalActivity;
+                this.brainActivity = brainActivity;
+                this.growthScore = this._calculateGrowthScore();
+            }
+
+            _calculateGrowthScore() {
+                const sign = this.impactSign === '+' ? 1 : -1;
+
+                const productiveScore = (
+                    this.timeTakenMinutes * SCORING_WEIGHTS["time_taken"] +
+                    this.physicalActivity * SCORING_WEIGHTS["physical_activity"] +
+                    this.brainActivity * SCORING_WEIGHTS["brain_activity"]
+                );
+
+                const dopamineAdjustedScore = productiveScore - (this.dopamineLevel * SCORING_WEIGHTS["dopamine_penalty"]);
+                const finalScore = sign * dopamineAdjustedScore; // Apply sign after dopamine adjustment
+                return parseFloat(finalScore.toFixed(2));
+            }
+        }
+
+        class DailySummaryData {
+            constructor(date, mood, goals = [], tasks = []) {
+                this.date = date;
+                this.mood = mood; // 1-5
+                this.goals = goals; // [{ text: "Goal 1", completed: false }, ...]
+                this.tasks = tasks; // Array of JournalEntry objects (or their data)
+                this.totalDailyGrowthScore = 0;
+                this.totalTimeSpent = 0;
+                this.calculateSummary();
+            }
+
+            calculateSummary() {
+                this.totalDailyGrowthScore = this.tasks.reduce((sum, task) => sum + task.growthScore, 0);
+                this.totalTimeSpent = this.tasks.reduce((sum, task) => sum + task.timeTakenMinutes, 0);
+                // Add bonus for completed goals
+                const completedGoalsCount = this.goals.filter(goal => goal.completed).length;
+                this.totalDailyGrowthScore += completedGoalsCount * SCORING_WEIGHTS["goal_completion_bonus"];
+                this.totalDailyGrowthScore = parseFloat(this.totalDailyGrowthScore.toFixed(2));
+            }
+
+            addTask(task) {
+                this.tasks.push(task);
+                this.calculateSummary(); // Recalculate summary after adding task
+            }
+
+            updateGoalCompletion(goalIndex, completed) {
+                if (this.goals[goalIndex]) {
+                    this.goals[goalIndex].completed = completed;
+                    this.calculateSummary(); // Recalculate summary after goal update
+                }
+            }
+
+            toDict() {
+                return {
+                    date: this.date,
+                    mood: this.mood,
+                    goals: this.goals,
+                    tasks: this.tasks.map(task => ({ // Store task data, not full objects
+                        date: task.date,
+                        taskDescription: task.taskDescription,
+                        dopamineLevel: task.dopamineLevel,
+                        impactSign: task.impactSign,
+                        timeTakenMinutes: task.timeTakenMinutes,
+                        physicalActivity: task.physicalActivity,
+                        brainActivity: task.brainActivity,
+                        growthScore: task.growthScore // Store pre-calculated score
+                    }))
+                };
+            }
+
+            static fromDict(data) {
+                const tasks = data.tasks.map(taskData => {
+                    const task = new JournalEntry(
+                        taskData.date, taskData.taskDescription, taskData.dopamineLevel,
+                        taskData.impactSign, taskData.timeTakenMinutes,
+                        taskData.physicalActivity, taskData.brainActivity
+                    );
+                    task.growthScore = taskData.growthScore; // Use stored score
+                    return task;
+                });
+                return new DailySummaryData(data.date, data.mood, data.goals, tasks);
+            }
+        }
+
+        class Journal {
+            constructor() {
+                this.dailyData = {}; // Stores DailySummaryData objects keyed by date
+                this.totalGrowthScore = 0;
+                this.unlockedAchievements = [];
+                this.currentStreak = 0;
+                this.lastStreakDate = null;
+                this.scoringWeights = { ...SCORING_WEIGHTS }; // Use a copy of default weights
+                this._loadState();
+            }
+
+            _loadState() {
+                try {
+                    const savedState = localStorage.getItem('dopamineJournalState');
+                    if (savedState) {
+                        const data = JSON.parse(savedState);
+                        this.dailyData = {};
+                        if (data.dailyData) {
+                            for (const date in data.dailyData) {
+                                this.dailyData[date] = DailySummaryData.fromDict(data.dailyData[date]);
+                            }
+                        }
+                        this.totalGrowthScore = data.totalGrowthScore || 0;
+                        this.unlockedAchievements = data.unlockedAchievements || [];
+                        this.currentStreak = data.currentStreak || 0;
+                        this.lastStreakDate = data.lastStreakDate || null;
+                        this.scoringWeights = data.scoringWeights ? { ...data.scoringWeights } : { ...SCORING_WEIGHTS };
+                        // Update global SCORING_WEIGHTS for new calculations
+                        Object.assign(SCORING_WEIGHTS, this.scoringWeights);
+                        console.log(`Loaded ${Object.keys(this.dailyData).length} daily entries and game state.`);
+                    } else {
+                        console.log("No existing journal data found. Starting new.");
+                        this._initializeNewState();
+                    }
+                } catch (e) {
+                    console.error("Error loading state from localStorage:", e);
+                    this._initializeNewState();
+                }
+            }
+
+            _initializeNewState() {
+                this.dailyData = {};
+                this.totalGrowthScore = 0;
+                this.unlockedAchievements = [];
+                this.currentStreak = 0;
+                this.lastStreakDate = null;
+                this.scoringWeights = { ...SCORING_WEIGHTS };
+            }
+
+            _saveState() {
+                const stateToSave = {
+                    dailyData: {},
+                    totalGrowthScore: this.totalGrowthScore,
+                    unlockedAchievements: this.unlockedAchievements,
+                    currentStreak: this.currentStreak,
+                    lastStreakDate: this.lastStreakDate,
+                    scoringWeights: this.scoringWeights
+                };
+                for (const date in this.dailyData) {
+                    stateToSave.dailyData[date] = this.dailyData[date].toDict();
+                }
+                localStorage.setItem('dopamineJournalState', JSON.stringify(stateToSave));
+                console.log("Journal and game state saved.");
+            }
+
+            // --- Daily Data Management ---
+            getOrCreateDailyData(date) {
+                if (!this.dailyData[date]) {
+                    this.dailyData[date] = new DailySummaryData(date, null, [], []);
+                }
+                return this.dailyData[date];
+            }
+
+            updateDailyMood(date, mood) {
+                const daily = this.getOrCreateDailyData(date);
+                daily.mood = mood;
+                this._saveState();
+            }
+
+            updateDailyGoals(date, goals) {
+                const daily = this.getOrCreateDailyData(date);
+                daily.goals = goals;
+                daily.calculateSummary(); // Recalculate daily score for goal bonus
+                this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0); // Recalculate total
+                this._saveState();
+            }
+
+            addJournalEntry(date, entry) {
+                const daily = this.getOrCreateDailyData(date);
+                daily.addTask(entry);
+                this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0); // Recalculate total
+                this._saveState();
+            }
+
+            updateGoalCompletion(date, goalIndex, completed) {
+                const daily = this.dailyData[date];
+                if (daily) {
+                    daily.updateGoalCompletion(goalIndex, completed);
+                    // Recalculate total growth score to include goal bonus/penalty
+                    this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0);
+                    this._saveState();
+                }
+            }
+
+            // --- Game Mechanics ---
+            getScoreSentimentEmoji(score) {
+                if (score > 50) return EMOJIS["score_sentiment"]["very_positive"];
+                if (score > 0) return EMOJIS["score_sentiment"]["positive"];
+                if (score === 0) return EMOJIS["score_sentiment"]["neutral"];
+                if (score < -50) return EMOJIS["score_sentiment"]["very_negative"];
+                return EMOJIS["score_sentiment"]["negative"];
+            }
+
+            getOverallGrowthScore() {
+                return parseFloat(this.totalGrowthScore.toFixed(2));
+            }
+
+            getCurrentLevel() {
+                let currentLevelName = "Novice";
+                const sortedLevels = Object.entries(LEVEL_THRESHOLDS).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+
+                for (const [threshold, name] of sortedLevels) {
+                    if (this.totalGrowthScore >= parseInt(threshold)) {
+                        currentLevelName = name;
+                    } else {
+                        break;
+                    }
+                }
+                return currentLevelName;
+            }
+
+            getLevelProgress() {
+                const sortedLevels = Object.entries(LEVEL_THRESHOLDS).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+                let prevThreshold = 0;
+                let nextThreshold = Infinity;
+                let nextLevelName = "Max Level!";
+
+                for (let i = 0; i < sortedLevels.length; i++) {
+                    const [threshold, name] = sortedLevels[i];
+                    if (this.totalGrowthScore < parseInt(threshold)) {
+                        nextThreshold = parseInt(threshold);
+                        nextLevelName = name;
+                        break;
+                    }
+                    prevThreshold = parseInt(threshold);
+                }
+
+                if (nextThreshold === Infinity) { // Already at max level
+                    return { progress: 100, nextLevel: "Max Level!", scoreToNext: 0 };
+                }
+
+                const progressRange = nextThreshold - prevThreshold;
+                const currentProgressInLevel = this.totalGrowthScore - prevThreshold;
+                const progressPercentage = progressRange > 0 ? (currentProgressInLevel / progressRange) * 100 : 100;
+                const scoreToNext = nextThreshold - this.totalGrowthScore;
+
+                return {
+                    progress: Math.min(100, Math.max(0, progressPercentage)),
+                    nextLevel: nextLevelName,
+                    scoreToNext: Math.max(0, scoreToNext)
+                };
+            }
+
+            checkAndUnlockAchievements() {
+                let newlyUnlocked = [];
+                const totalBrainActivity = Object.values(this.dailyData).reduce((sum, daily) =>
+                    sum + daily.tasks.reduce((taskSum, task) => taskSum + task.brainActivity, 0), 0);
+                const totalPhysicalActivity = Object.values(this.dailyData).reduce((sum, daily) =>
+                    sum + daily.tasks.reduce((taskSum, task) => taskSum + task.physicalActivity, 0), 0);
+                const totalGoalsCompleted = Object.values(this.dailyData).reduce((sum, daily) =>
+                    sum + daily.goals.filter(goal => goal.completed).length, 0);
+                const daysLogged = Object.keys(this.dailyData).length;
+
+                for (const achievement of ACHIEVEMENTS) {
+                    if (!this.unlockedAchievements.includes(achievement.name)) {
+                        if (achievement.type === "cumulative_score" && this.totalGrowthScore >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        } else if (achievement.type === "streak" && this.currentStreak >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        } else if (achievement.type === "total_brain_activity" && totalBrainActivity >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        } else if (achievement.type === "total_physical_activity" && totalPhysicalActivity >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        } else if (achievement.type === "goals_completed" && totalGoalsCompleted >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        } else if (achievement.type === "days_logged" && daysLogged >= achievement.threshold) {
+                            newlyUnlocked.push(achievement);
+                        }
+                    }
+                }
+
+                for (const ach of newlyUnlocked) {
+                    this.unlockedAchievements.push(ach.name);
+                    showMessage(`${EMOJIS.achievement} ACHIEVEMENT UNLOCKED: ${ach.name}! ${ach.emoji}`);
+                }
+                if (newlyUnlocked.length > 0) {
+                    this._saveState();
+                }
+            }
+
+            updateStreak(currentDateStr) {
+                const currentDate = new Date(currentDateStr);
+                const daily = this.dailyData[currentDateStr];
+                const dailyScore = daily ? daily.totalDailyGrowthScore : 0;
+
+                let message = "";
+
+                if (this.lastStreakDate) {
+                    const lastDate = new Date(this.lastStreakDate);
+                    const diffTime = Math.abs(currentDate - lastDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays === 1) { // Consecutive day
+                        if (dailyScore > 0) {
+                            this.currentStreak += 1;
+                            message = `${EMOJIS.streak} Streak continues! You're on a ${this.currentStreak}-day streak!`;
+                        } else {
+                            message = "Streak broken. Keep going, you'll get it next time!";
+                            this.currentStreak = 0;
+                        }
+                    } else if (diffDays > 1) { // Gap in days
+                        message = "Gap detected. Streak reset.";
+                        this.currentStreak = 0;
+                        if (dailyScore > 0) { // Start new streak if current day is positive
+                            this.currentStreak = 1;
+                            message += `\n${EMOJIS.streak} New streak started: 1 day!`;
+                        }
+                    }
+                    // If diffDays is 0, it's the same day, no streak change needed
+                } else {
+                    // First day with a score
+                    if (dailyScore > 0) {
+                        this.currentStreak = 1;
+                        message = `${EMOJIS.streak} New streak started: 1 day!`;
+                    } else {
+                        this.currentStreak = 0;
+                    }
+                }
+
+                if (dailyScore > 0) {
+                    this.lastStreakDate = currentDateStr;
+                } else if (this.lastStreakDate && currentDate > new Date(this.lastStreakDate) && dailyScore <= 0) {
+                    // If today's score is not positive and it's a new day after the last streak date, reset streak
+                    this.currentStreak = 0;
+                    this.lastStreakDate = null;
+                }
+
+                if (message) {
+                    showMessage(message);
+                }
+                this._saveState();
+            }
+
+            // --- Insights & Analysis ---
+            getAllDates() {
+                return Object.keys(this.dailyData).sort();
+            }
+
+            getAverageDailyScore() {
+                const dates = this.getAllDates();
+                if (dates.length === 0) return 0;
+                const total = dates.reduce((sum, date) => sum + this.dailyData[date].totalDailyGrowthScore, 0);
+                return parseFloat((total / dates.length).toFixed(2));
+            }
+
+            getAverageDailyTasks() {
+                const dates = this.getAllDates();
+                if (dates.length === 0) return 0;
+                const total = dates.reduce((sum, date) => sum + this.dailyData[date].tasks.length, 0);
+                return parseFloat((total / dates.length).toFixed(1));
+            }
+
+            getMostCommonPositiveMood() {
+                const moodCounts = {};
+                for (const date in this.dailyData) {
+                    const daily = this.dailyData[date];
+                    if (daily.mood && daily.totalDailyGrowthScore > 0) { // Only consider positive days
+                        moodCounts[daily.mood] = (moodCounts[daily.mood] || 0) + 1;
+                    }
+                }
+                if (Object.keys(moodCounts).length === 0) return "N/A";
+
+                let mostCommonMood = null;
+                let maxCount = 0;
+                for (const mood in moodCounts) {
+                    if (moodCounts[mood] > maxCount) {
+                        maxCount = moodCounts[mood];
+                        mostCommonMood = mood;
+                    }
+                }
+                return mostCommonMood ? `${EMOJIS.mood[parseInt(mostCommonMood)]} (${mostCommonMood}/5)` : "N/A";
+            }
+
+            getMoodDistribution() {
+                const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                let totalMoods = 0;
+                for (const date in this.dailyData) {
+                    const mood = this.dailyData[date].mood;
+                    if (mood) {
+                        distribution[mood]++;
+                        totalMoods++;
+                    }
+                }
+                const result = {};
+                for (const mood in distribution) {
+                    result[mood] = totalMoods > 0 ? parseFloat(((distribution[mood] / totalMoods) * 100).toFixed(1)) : 0;
+                }
+                return result;
+            }
+
+            getActivityDistribution(activityType) { // 'physicalActivity' or 'brainActivity'
+                const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+                let totalActivities = 0;
+                for (const date in this.dailyData) {
+                    this.dailyData[date].tasks.forEach(task => {
+                        const activityLevel = task[activityType];
+                        if (activityLevel) {
+                            distribution[activityLevel]++;
+                            totalActivities++;
+                        }
+                    });
+                }
+                const result = {};
+                for (const level in distribution) {
+                    result[level] = totalActivities > 0 ? parseFloat(((distribution[level] / totalActivities) * 100).toFixed(1)) : 0;
+                }
+                return result;
+            }
+
+
+            getTopAndBottomTasks(count = 3) {
+                const taskScores = {}; // { taskDescription: { sum: 0, count: 0 }}
+
+                for (const date in this.dailyData) {
+                    this.dailyData[date].tasks.forEach(task => {
+                        if (!taskScores[task.taskDescription]) {
+                            taskScores[task.taskDescription] = { sum: 0, count: 0 };
+                        }
+                        taskScores[task.taskDescription].sum += task.growthScore;
+                        taskScores[task.taskDescription].count += 1;
+                    });
+                }
+
+                const averagedTaskScores = [];
+                for (const taskDesc in taskScores) {
+                    const { sum, count } = taskScores[taskDesc];
+                    const averageScore = sum / count;
+                    averagedTaskScores.push({ description: taskDesc, averageScore: parseFloat(averageScore.toFixed(2)) });
+                }
+
+                averagedTaskScores.sort((a, b) => b.averageScore - a.averageScore); // Sort descending
+
+                return {
+                    top: averagedTaskScores.slice(0, count),
+                    bottom: averagedTaskScores.slice(-count).reverse() // Get last 'count' elements and reverse for ascending
+                };
+            }
+
+            // --- Settings ---
+            updateScoringWeights(newWeights) {
+                this.scoringWeights = { ...newWeights };
+                Object.assign(SCORING_WEIGHTS, this.scoringWeights); // Update global for current calculations
+                // Note: Existing task scores are NOT recalculated with new weights.
+                // Only new tasks will use these updated weights.
+                this._saveState();
+                showMessage("Scoring weights updated! New tasks will use these weights.");
+            }
+
+            exportData() {
+                const dataStr = JSON.stringify(localStorage.getItem('dopamineJournalState'), null, 4);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `dopamine_journal_backup_${formatDate(new Date())}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showMessage("Journal data exported successfully!");
+            }
+
+            importData(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const importedState = JSON.parse(e.target.result);
+                        localStorage.setItem('dopamineJournalState', JSON.stringify(importedState));
+                        this._loadState(); // Reload the journal with imported data
+                        initializeUI(); // Re-render UI
+                        showMessage("Journal data imported successfully! Page reloaded.", 'success');
+                    } catch (error) {
+                        showMessage("Error importing data: Invalid JSON file.", 'error');
+                        console.error("Import error:", error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            clearAllData() {
+                localStorage.removeItem('dopamineJournalState');
+                this._initializeNewState();
+                initializeUI();
+                showMessage("All journal data cleared!", 'success');
+            }
+        }
+
+        // --- Global Journal Instance ---
+        const journal = new Journal();
+
+        // --- DOM Elements ---
+        const navButtons = {
+            addEntry: document.getElementById('navAddEntry'),
+            viewJournal: document.getElementById('navViewJournal'),
+            gameStats: document.getElementById('navGameStats'),
+            insights: document.getElementById('navInsights'),
+            settings: document.getElementById('navSettings')
+        };
+
+        const sections = {
+            addEntry: document.getElementById('addEntrySection'),
+            viewJournal: document.getElementById('viewJournalSection'),
+            gameStats: document.getElementById('gameStatsSection'),
+            insights: document.getElementById('insightsSection'),
+            settings: document.getElementById('settingsSection')
+        };
+
+        // Add Entry Section
+        const dailyEntryForm = document.getElementById('dailyEntryForm');
+        const entryDateInput = document.getElementById('entryDateInput');
+        const moodSelector = document.getElementById('moodSelector');
+        const dailyMoodValueInput = document.getElementById('dailyMoodValue');
+        const dailyGoalsInput = document.getElementById('dailyGoalsInput');
+        const currentTaskDateSpan = document.getElementById('currentTaskDate');
+
+        const taskForm = document.getElementById('taskForm');
+        const taskDescriptionInput = document.getElementById('taskDescription');
+        const dopamineLevelInput = document.getElementById('dopamineLevel');
+        const impactSignInput = document.getElementById('impactSign');
+        const timeTakenInput = document.getElementById('timeTaken');
+        const physicalActivityInput = document.getElementById('physicalActivity');
+        const brainActivityInput = document.getElementById('brainActivity');
+
+        // View Journal Section
+        const journalDateFilter = document.getElementById('journalDateFilter');
+        const clearJournalFilterBtn = document.getElementById('clearJournalFilterBtn');
+        const journalEntriesList = document.getElementById('journalEntriesList');
+
+        // Game Stats Section
+        const currentLevelSpan = document.getElementById('currentLevel');
+        const levelUpEmojiSpan = document.getElementById('levelUpEmoji');
+        const levelProgressBar = document.getElementById('levelProgressBar');
+        const totalGrowthScoreSpan = document.getElementById('totalGrowthScore');
+        const totalScoreEmojiSpan = document.getElementById('totalScoreEmoji');
+        const currentStreakSpan = document.getElementById('currentStreak');
+        const streakEmojiSpan = document.getElementById('streakEmoji');
+        const unlockedAchievementsList = document.getElementById('unlockedAchievementsList');
+
+        // Insights Section
+        const avgDailyScoreSpan = document.getElementById('avgDailyScore');
+        const avgDailyTasksSpan = document.getElementById('avgDailyTasks');
+        const mostCommonPositiveMoodSpan = document.getElementById('mostCommonPositiveMood');
+        const getWeeklySummaryBtn = document.getElementById('getWeeklySummaryBtn');
+        const getMonthlySummaryBtn = document.getElementById('getMonthlySummaryBtn');
+        const periodSummaryOutput = document.getElementById('periodSummaryOutput');
+        const topTasksList = document.getElementById('topTasksList');
+        const bottomTasksList = document.getElementById('bottomTasksList');
+        const physicalActivityDistributionList = document.getElementById('physicalActivityDistributionList');
+        const brainActivityDistributionList = document.getElementById('brainActivityDistributionList');
+        const moodDistributionList = document.getElementById('moodDistributionList');
+
+
+        // Settings Section
+        const weightsForm = document.getElementById('weightsForm');
+        const weightTimeTakenInput = document.getElementById('weightTimeTaken');
+        const weightPhysicalActivityInput = document.getElementById('weightPhysicalActivity');
+        const weightBrainActivityInput = document.getElementById('weightBrainActivity');
+        const weightDopaminePenaltyInput = document.getElementById('weightDopaminePenalty');
+        const weightGoalCompletionBonusInput = document.getElementById('weightGoalCompletionBonus'); // New input
+        const exportDataBtn = document.getElementById('exportDataBtn');
+        const importFileInput = document.getElementById('importFileInput');
+        const importDataBtn = document.getElementById('importDataBtn');
+        const clearAllDataBtn = document.getElementById('clearAllDataBtn');
+
+        const messageBox = document.getElementById('messageBox');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+
+        // --- Helper Functions ---
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            messageBox.className = 'message-box show'; // Reset classes
+            if (type === 'success') {
+                messageBox.style.backgroundColor = '#22c55e'; // green-500
+            } else if (type === 'error') {
+                messageBox.style.backgroundColor = '#ef4444'; // red-500
+            } else {
+                messageBox.style.backgroundColor = '#3b82f6'; // blue-500 (info)
+            }
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function showConfirmationModal(msg, onConfirm) {
+            modalMessage.textContent = msg;
+            confirmationModal.classList.remove('hidden');
+
+            const confirmHandler = () => {
+                onConfirm();
+                confirmationModal.classList.add('hidden');
+                modalConfirmBtn.removeEventListener('click', confirmHandler);
+                modalCancelBtn.removeEventListener('click', cancelHandler);
+            };
+
+            const cancelHandler = () => {
+                confirmationModal.classList.add('hidden');
+                modalConfirmBtn.removeEventListener('click', confirmHandler);
+                modalCancelBtn.removeEventListener('click', cancelHandler);
+            };
+
+            modalConfirmBtn.addEventListener('click', confirmHandler);
+            modalCancelBtn.addEventListener('click', cancelHandler);
+        }
+
+        // --- UI Update Functions ---
+        function showSection(sectionId) {
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`nav${sectionId.replace('Section', '')}`).classList.add('active');
+
+            // Specific updates when a section is shown
+            if (sectionId === 'viewJournalSection') {
+                updateJournalDisplay(journalDateFilter.value);
+            } else if (sectionId === 'gameStatsSection') {
+                updateGameStatsDisplay();
+            } else if (sectionId === 'insightsSection') {
+                updateInsightsDisplay();
+            } else if (sectionId === 'settingsSection') {
+                loadScoringWeightsToForm();
+            }
+        }
+
+        function updateJournalDisplay(filterDate = null) {
+            journalEntriesList.innerHTML = ''; // Clear previous entries
+            const allDates = journal.getAllDates();
+            let datesToDisplay = allDates;
+
+            if (filterDate) {
+                datesToDisplay = allDates.filter(date => date === filterDate);
+            }
+
+            if (datesToDisplay.length === 0) {
+                journalEntriesList.innerHTML = '<p class="text-center text-slate-500">No entries yet for this date, or journal is empty. Add some tasks!</p>';
+                return;
+            }
+
+            // Display in reverse chronological order
+            datesToDisplay.sort((a, b) => new Date(b) - new Date(a));
+
+            datesToDisplay.forEach(date => {
+                const dailyData = journal.dailyData[date];
+                if (!dailyData) return; // Should not happen if filtered correctly
+
+                const dateHeader = document.createElement('div');
+                dateHeader.className = 'text-xl font-bold text-slate-800 mt-6 mb-2 flex items-center justify-between';
+                dateHeader.innerHTML = `Date: ${date} <span class="text-base font-normal">Mood: ${EMOJIS.mood[dailyData.mood] || 'N/A'}</span>`;
+                journalEntriesList.appendChild(dateHeader);
+
+                // Display Daily Goals
+                if (dailyData.goals && dailyData.goals.length > 0) {
+                    const goalsContainer = document.createElement('div');
+                    goalsContainer.className = 'card mb-4';
+                    goalsContainer.innerHTML = '<h4 class="card-title">Daily Goals:</h4>';
+                    dailyData.goals.forEach((goal, index) => {
+                        const goalItem = document.createElement('div');
+                        goalItem.className = `goal-item ${goal.completed ? 'completed' : ''}`;
+                        goalItem.innerHTML = `
+                            <input type="checkbox" data-date="${date}" data-index="${index}" ${goal.completed ? 'checked' : ''}>
+                            <span>${goal.text}</span>
+                        `;
+                        goalsContainer.appendChild(goalItem);
+                    });
+                    journalEntriesList.appendChild(goalsContainer);
+
+                    // Add event listener for goal checkboxes
+                    goalsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.addEventListener('change', (e) => {
+                            const goalDate = e.target.dataset.date;
+                            const goalIndex = parseInt(e.target.dataset.index);
+                            const isCompleted = e.target.checked;
+                            journal.updateGoalCompletion(goalDate, goalIndex, isCompleted);
+                            e.target.closest('.goal-item').classList.toggle('completed', isCompleted);
+                            showMessage(`Goal marked as ${isCompleted ? 'completed' : 'incomplete'}!`);
+                            updateGameStatsDisplay(); // Update stats as goal completion affects score
+                        });
+                    });
+                }
+
+
+                const tasksContainer = document.createElement('div');
+                tasksContainer.className = 'grid grid-cols-1 gap-4';
+                journalEntriesList.appendChild(tasksContainer);
+
+                if (dailyData.tasks.length === 0) {
+                    const noTasks = document.createElement('p');
+                    noTasks.className = 'text-center text-slate-500 mt-2 mb-4';
+                    noTasks.textContent = 'No tasks recorded for this day.';
+                    tasksContainer.appendChild(noTasks);
+                } else {
+                    dailyData.tasks.forEach(entry => {
+                        const dopamineEmoji = EMOJIS["dopamine"][entry.dopamineLevel] || "";
+                        const impactEmoji = EMOJIS["impact"][entry.impactSign] || "";
+                        const scoreEmoji = journal.getScoreSentimentEmoji(entry.growthScore);
+
+                        const entryCard = document.createElement('div');
+                        entryCard.className = 'card';
+                        entryCard.innerHTML = `
+                            <p class="card-title">${entry.taskDescription}</p>
+                            <p><strong>Dopamine:</strong> ${entry.dopamineLevel}/5 ${dopamineEmoji}</p>
+                            <p><strong>Impact:</strong> ${entry.impactSign} (Growth) ${impactEmoji}</p>
+                            <p><strong>Time:</strong> ${entry.timeTakenMinutes} mins</p>
+                            <p><strong>Physical Activity:</strong> ${entry.physicalActivity}/5</p>
+                            <p><strong>Brain Activity:</strong> ${entry.brainActivity}/5</p>
+                            <p class="mt-2 text-lg font-bold text-blue-700">Growth Score: ${entry.growthScore} ${scoreEmoji}</p>
+                        `;
+                        tasksContainer.appendChild(entryCard);
+                    });
+                }
+
+                // Display daily summary for the date
+                const dailySummary = journal.dailyData[date];
+                if (dailySummary) {
+                    const scoreEmoji = journal.getScoreSentimentEmoji(dailySummary.totalDailyGrowthScore);
+                    const summaryBox = document.createElement('div');
+                    summaryBox.className = 'summary-box mt-4';
+                    summaryBox.innerHTML = `
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">Daily Summary for ${date}</h3>
+                        <p class="summary-item">Total Tasks: ${dailySummary.tasks.length}</p>
+                        <p class="summary-item">Total Time Spent: ${dailySummary.totalTimeSpent} minutes</p>
+                        <p class="summary-item">Overall Growth Score: ${dailySummary.totalDailyGrowthScore} ${scoreEmoji}</p>
+                    `;
+                    journalEntriesList.appendChild(summaryBox);
+                }
+            });
+        }
+
+        function updateGameStatsDisplay() {
+            const currentLevel = journal.getCurrentLevel();
+            const totalGrowthScore = journal.getOverallGrowthScore();
+            const scoreEmoji = journal.getScoreSentimentEmoji(totalGrowthScore);
+            const levelProgress = journal.getLevelProgress();
+
+            currentLevelSpan.textContent = currentLevel;
+            levelUpEmojiSpan.textContent = EMOJIS['level_up'];
+            totalGrowthScoreSpan.textContent = totalGrowthScore;
+            totalScoreEmojiSpan.textContent = scoreEmoji;
+            currentStreakSpan.textContent = journal.currentStreak;
+            streakEmojiSpan.textContent = EMOJIS['streak'];
+
+            // Update progress bar
+            levelProgressBar.style.width = `${levelProgress.progress}%`;
+            levelProgressBar.textContent = `${levelProgress.progress.toFixed(0)}% to ${levelProgress.nextLevel}`;
+            if (levelProgress.nextLevel === "Max Level!") {
+                levelProgressBar.textContent = "Max Level Achieved!";
+            }
+
+
+            unlockedAchievementsList.innerHTML = ''; // Clear previous achievements
+            const unlocked = journal.getUnlockedAchievements();
+            if (unlocked.length === 0) {
+                unlockedAchievementsList.innerHTML = '<p class="text-center text-slate-500 md:col-span-2">No achievements unlocked yet. Keep growing!</p>';
+            } else {
+                unlocked.forEach(achName => {
+                    const achievement = ACHIEVEMENTS.find(a => a.name === achName);
+                    const achEmoji = achievement ? achievement.emoji : "❓";
+                    const achItem = document.createElement('div');
+                    achItem.className = 'achievement-item';
+                    achItem.innerHTML = `<span>${achEmoji}</span><span>${achName}</span>`;
+                    unlockedAchievementsList.appendChild(achItem);
+                });
+            }
+        }
+
+        function updateInsightsDisplay() {
+            avgDailyScoreSpan.textContent = journal.getAverageDailyScore();
+            avgDailyTasksSpan.textContent = journal.getAverageDailyTasks();
+            mostCommonPositiveMoodSpan.textContent = journal.getMostCommonPositiveMood();
+
+            const { top, bottom } = journal.getTopAndBottomTasks();
+
+            topTasksList.innerHTML = '';
+            if (top.length === 0) {
+                topTasksList.innerHTML = '<li>No tasks recorded yet.</li>';
+            } else {
+                top.forEach(task => {
+                    const li = document.createElement('li');
+                    li.textContent = `${task.description} (Avg Score: ${task.averageScore})`;
+                    topTasksList.appendChild(li);
+                });
+            }
+
+            bottomTasksList.innerHTML = '';
+            if (bottom.length === 0) {
+                bottomTasksList.innerHTML = '<li>No tasks recorded yet.</li>';
+            } else {
+                bottom.forEach(task => {
+                    const li = document.createElement('li');
+                    li.textContent = `${task.description} (Avg Score: ${task.averageScore})`;
+                    bottomTasksList.appendChild(li);
+                });
+            }
+
+            // Update Activity Distribution
+            physicalActivityDistributionList.innerHTML = '';
+            const physicalDist = journal.getActivityDistribution('physicalActivity');
+            for (const level in physicalDist) {
+                const li = document.createElement('li');
+                li.textContent = `Level ${level}: ${physicalDist[level]}%`;
+                physicalActivityDistributionList.appendChild(li);
+            }
+            if (Object.keys(physicalDist).length === 0) physicalActivityDistributionList.innerHTML = '<li>No data.</li>';
+
+            brainActivityDistributionList.innerHTML = '';
+            const brainDist = journal.getActivityDistribution('brainActivity');
+            for (const level in brainDist) {
+                const li = document.createElement('li');
+                li.textContent = `Level ${level}: ${brainDist[level]}%`;
+                brainActivityDistributionList.appendChild(li);
+            }
+            if (Object.keys(brainDist).length === 0) brainActivityDistributionList.innerHTML = '<li>No data.</li>';
+
+            // Update Mood Distribution
+            moodDistributionList.innerHTML = '';
+            const moodDist = journal.getMoodDistribution();
+            for (const mood in moodDist) {
+                const li = document.createElement('li');
+                li.textContent = `${EMOJIS.mood[mood]} (Level ${mood}): ${moodDist[mood]}%`;
+                moodDistributionList.appendChild(li);
+            }
+            if (Object.keys(moodDist).length === 0) moodDistributionList.innerHTML = '<li>No data.</li>';
+        }
+
+
+        function loadScoringWeightsToForm() {
+            weightTimeTakenInput.value = journal.scoringWeights.time_taken;
+            weightPhysicalActivityInput.value = journal.scoringWeights.physical_activity;
+            weightBrainActivityInput.value = journal.scoringWeights.brain_activity;
+            weightDopaminePenaltyInput.value = journal.scoringWeights.dopamine_penalty;
+            weightGoalCompletionBonusInput.value = journal.scoringWeights.goal_completion_bonus;
+        }
+
+        // --- Event Listeners ---
+        navButtons.addEntry.addEventListener('click', () => showSection('addEntrySection'));
+        navButtons.viewJournal.addEventListener('click', () => showSection('viewJournalSection'));
+        navButtons.gameStats.addEventListener('click', () => showSection('gameStatsSection'));
+        navButtons.insights.addEventListener('click', () => showSection('insightsSection'));
+        navButtons.settings.addEventListener('click', () => showSection('settingsSection'));
+
+        // Set today's date on load
+        const today = formatDate(new Date());
+        entryDateInput.value = today;
+        journalDateFilter.value = today;
+        currentTaskDateSpan.textContent = today; // Update the span in "Add Task" section
+
+        // Update currentTaskDateSpan when entryDateInput changes
+        entryDateInput.addEventListener('change', () => {
+            currentTaskDateSpan.textContent = entryDateInput.value;
+            // When date changes, load existing mood/goals if available
+            const dailyData = journal.dailyData[entryDateInput.value];
+            if (dailyData) {
+                dailyMoodValueInput.value = dailyData.mood || '';
+                moodSelector.querySelectorAll('.mood-btn').forEach(btn => {
+                    if (parseInt(btn.dataset.mood) === dailyData.mood) {
+                        btn.classList.add('selected');
+                    } else {
+                        btn.classList.remove('selected');
+                    }
+                });
+                dailyGoalsInput.value = dailyData.goals.map(g => g.text).join('\n');
+            } else {
+                dailyMoodValueInput.value = '';
+                moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+                dailyGoalsInput.value = '';
+            }
+        });
+
+        // Mood Selector
+        moodSelector.querySelectorAll('.mood-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                dailyMoodValueInput.value = button.dataset.mood;
+            });
+        });
+
+        // Daily Entry Form Submission (Mood & Goals)
+        dailyEntryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const date = entryDateInput.value;
+            const mood = parseInt(dailyMoodValueInput.value);
+            const goalsText = dailyGoalsInput.value.trim();
+            const goals = goalsText ? goalsText.split('\n').map(g => ({ text: g.trim(), completed: false })) : [];
+
+            // Check if mood is selected
+            if (!mood) {
+                showMessage("Please select your daily mood!", 'error');
+                return;
+            }
+
+            // Check if daily data already exists for this date
+            const existingDaily = journal.dailyData[date];
+            if (existingDaily) {
+                // Update existing mood and goals
+                journal.updateDailyMood(date, mood);
+                journal.updateDailyGoals(date, goals);
+                showMessage(`Daily info for ${date} updated!`);
+            } else {
+                // Create new daily data
+                journal.getOrCreateDailyData(date); // This will create the DailySummaryData object
+                journal.updateDailyMood(date, mood);
+                journal.updateDailyGoals(date, goals);
+                showMessage(`Daily info for ${date} saved!`);
+            }
+            // Clear goals input after saving
+            // dailyGoalsInput.value = ''; // Keep goals for easy editing
+            // Deselect mood buttons
+            // moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+            // dailyMoodValueInput.value = '';
+
+            // Update streak and achievements based on potential goal completion
+            journal.updateStreak(date);
+            journal.checkAndUnlockAchievements();
+            updateGameStatsDisplay();
+        });
+
+
+        // Task Form Submission
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const date = entryDateInput.value; // Use the date from the daily entry form
+            if (!journal.dailyData[date]) {
+                showMessage("Please save daily mood and goals first for this date!", 'error');
+                return;
+            }
+
+            const newEntry = new JournalEntry(
+                date,
+                taskDescriptionInput.value,
+                parseInt(dopamineLevelInput.value),
+                impactSignInput.value,
+                parseInt(timeTakenInput.value),
+                parseInt(physicalActivityInput.value),
+                parseInt(brainActivityInput.value)
+            );
+            journal.addJournalEntry(date, newEntry);
+            showMessage(`Task '${newEntry.taskDescription}' added! Growth Score: ${newEntry.growthScore} ${journal.getScoreSentimentEmoji(newEntry.growthScore)}`);
+
+            // Clear task form fields
+            taskDescriptionInput.value = '';
+            dopamineLevelInput.value = '1';
+            impactSignInput.value = '+';
+            timeTakenInput.value = '0';
+            physicalActivityInput.value = '1';
+            brainActivityInput.value = '1';
+
+            // Update game stats and journal display immediately
+            journal.updateStreak(date); // Update streak based on the day's total score
+            journal.checkAndUnlockAchievements();
+            updateGameStatsDisplay();
+            updateJournalDisplay(journalDateFilter.value); // Refresh journal view if active
+        });
+
+        // Journal Filter
+        journalDateFilter.addEventListener('change', (e) => {
+            updateJournalDisplay(e.target.value);
+        });
+        clearJournalFilterBtn.addEventListener('click', () => {
+            journalDateFilter.value = '';
+            updateJournalDisplay();
+        });
+
+        // Insights - Weekly/Monthly Summary Buttons
+        getWeeklySummaryBtn.addEventListener('click', () => {
+            const today = new Date();
+            const endDate = today;
+            const startDate = new Date(today);
+            startDate.setDate(today.getDate() - 7); // Last 7 days
+
+            let totalScore = 0;
+            let totalTasks = 0;
+            let datesIncluded = new Set();
+
+            for (const dateStr in journal.dailyData) {
+                const date = new Date(dateStr);
+                if (date >= startDate && date <= endDate) {
+                    totalScore += journal.dailyData[dateStr].totalDailyGrowthScore;
+                    totalTasks += journal.dailyData[dateStr].tasks.length;
+                    datesIncluded.add(dateStr);
+                }
+            }
+            periodSummaryOutput.classList.remove('hidden');
+            periodSummaryOutput.innerHTML = `
+                <h3 class="text-xl font-bold text-blue-800 mb-2">Weekly Summary (${formatDate(startDate)} to ${formatDate(endDate)})</h3>
+                <p class="summary-item">Total Growth Score: ${parseFloat(totalScore.toFixed(2))} ${journal.getScoreSentimentEmoji(totalScore)}</p>
+                <p class="summary-item">Total Tasks Logged: ${totalTasks}</p>
+                <p class="summary-item">Days with Entries: ${datesIncluded.size}</p>
+            `;
+        });
+
+        getMonthlySummaryBtn.addEventListener('click', () => {
+            const today = new Date();
+            const endDate = today;
+            const startDate = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate()); // Last month
+
+            let totalScore = 0;
+            let totalTasks = 0;
+            let datesIncluded = new Set();
+
+            for (const dateStr in journal.dailyData) {
+                const date = new Date(dateStr);
+                if (date >= startDate && date <= endDate) {
+                    totalScore += journal.dailyData[dateStr].totalDailyGrowthScore;
+                    totalTasks += journal.dailyData[dateStr].tasks.length;
+                    datesIncluded.add(dateStr);
+                }
+            }
+            periodSummaryOutput.classList.remove('hidden');
+            periodSummaryOutput.innerHTML = `
+                <h3 class="text-xl font-bold text-blue-800 mb-2">Monthly Summary (${formatDate(startDate)} to ${formatDate(endDate)})</h3>
+                <p class="summary-item">Total Growth Score: ${parseFloat(totalScore.toFixed(2))} ${journal.getScoreSentimentEmoji(totalScore)}</p>
+                <p class="summary-item">Total Tasks Logged: ${totalTasks}</p>
+                <p class="summary-item">Days with Entries: ${datesIncluded.size}</p>
+            `;
+        });
+
+        // Settings - Weights Form Submission
+        weightsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newWeights = {
+                time_taken: parseFloat(weightTimeTakenInput.value),
+                physical_activity: parseInt(weightPhysicalActivityInput.value),
+                brain_activity: parseInt(weightBrainActivityInput.value),
+                dopamine_penalty: parseInt(weightDopaminePenaltyInput.value),
+                goal_completion_bonus: parseInt(weightGoalCompletionBonusInput.value)
+            };
+            journal.updateScoringWeights(newWeights);
+            updateGameStatsDisplay(); // Recalculate and update if total score changed
+        });
+
+        // Settings - Data Management
+        exportDataBtn.addEventListener('click', () => journal.exportData());
+
+        importDataBtn.addEventListener('click', () => {
+            const file = importFileInput.files[0];
+            if (file) {
+                journal.importData(file);
+            } else {
+                showMessage("Please select a JSON file to import.", 'error');
+            }
+        });
+
+        clearAllDataBtn.addEventListener('click', () => {
+            showConfirmationModal("Are you sure you want to clear ALL journal data? This cannot be undone!", () => {
+                journal.clearAllData();
+            });
+        });
+
+
+        // Initialize UI on page load
+        function initializeUI() {
+            // Set today's date as default for input fields
+            const today = formatDate(new Date());
+            entryDateInput.value = today;
+            journalDateFilter.value = today;
+            currentTaskDateSpan.textContent = today;
+
+            // Load existing mood/goals for today if available
+            const dailyData = journal.dailyData[today];
+            if (dailyData) {
+                dailyMoodValueInput.value = dailyData.mood || '';
+                moodSelector.querySelectorAll('.mood-btn').forEach(btn => {
+                    if (parseInt(btn.dataset.mood) === dailyData.mood) {
+                        btn.classList.add('selected');
+                    } else {
+                        btn.classList.remove('selected');
+                    }
+                });
+                dailyGoalsInput.value = dailyData.goals.map(g => g.text).join('\n');
+            } else {
+                dailyMoodValueInput.value = '';
+                moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+                dailyGoalsInput.value = '';
+            }
+
+            // Initial display
+            showSection('addEntrySection');
+            updateJournalDisplay();
+            updateGameStatsDisplay();
+            journal.checkAndUnlockAchievements(); // Check achievements on page load
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeUI);
+    </script>
+</body>
+</html>
