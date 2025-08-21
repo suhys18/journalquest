@@ -113,10 +113,10 @@ This project is a testament to how personal ideas can be rapidly prototyped with
 ## **License**
 
 This project is open-source and available under the MIT License. Feel free to use, modify, and distribute it as you see fit.
-
+```
 MIT License
 
-Copyright (c) 2025 \[Your Name/AI Model\]
+Copyright (c) 2025 suhys thunga
 
 Permission is hereby granted, free of charge, to any person obtaining a copy  
 of this software and associated documentation files (the "Software"), to deal  
@@ -135,7 +135,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  
 SOFTWARE.
-
+```
 ## **Contact & Support**
 
-If you have questions, suggestions, or need assistance, feel free to reach out\! (If you host this on GitHub, you might add your GitHub profile link or an email here).
+If you have questions, suggestions, or need assistance, feel free to reach out! 
