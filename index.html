@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,8 +131,8 @@
             margin-bottom: 0.5rem;
             padding: 0.5rem;
             background-color: #f0f9ff; /* sky-50 */
-            border: 1px solid #bae6fd; /* sky-200 */
             border-radius: 0.5rem;
+            border: 1px solid #bae6fd; /* sky-200 */
         }
         .achievement-item span:first-child {
             font-size: 1.5rem; /* text-2xl */
@@ -220,43 +221,6 @@
         .goal-item span {
             flex-grow: 1;
         }
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        .modal-content h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-        .modal-content p {
-            margin-bottom: 1.5rem;
-            color: #475569;
-        }
-        .modal-buttons {
-            display: flex;
-            justify-content: space-around;
-            gap: 1rem;
-        }
     </style>
 </head>
 <body class="p-4">
@@ -311,11 +275,11 @@
                 <div>
                     <label for="dopamineLevel" class="form-label">Dopamine Level (1-5):</label>
                     <select id="dopamineLevel" class="form-select" required>
-                        <option value="1">1 💧 (Barely there, like a sip of water)</option>
-                        <option value="2">2 😊 (Mild satisfaction, a pleasant hum)</option>
-                        <option value="3">3 🤩 (Good vibes, a noticeable pick-me-up)</option>
-                        <option value="4">4 🚀 (High energy, a real rush!)</option>
-                        <option value="5">5 🤯 (Explosive joy, like hitting a jackpot!)</option>
+                        <option value="1">1 💧 (Drinking water level)</option>
+                        <option value="2">2 😊</option>
+                        <option value="3">3 🤩 (Moderate hit)</option>
+                        <option value="4">4 🚀 (High hit)</option>
+                        <option value="5">5 🤯 (Equal to/greater than watching corn stuff)</option>
                     </select>
                 </div>
                 <div>
@@ -332,21 +296,21 @@
                 <div>
                     <label for="physicalActivity" class="form-label">Physical Activity (1-5):</label>
                     <select id="physicalActivity" class="form-select" required>
-                        <option value="1">1 (Minimal movement, e.g., typing)</option>
-                        <option value="2">2 (Light activity, e.g., short walk)</option>
-                        <option value="3">3 (Moderate activity, e.g., brisk walk, chores)</option>
-                        <option value="4">4 (Significant activity, e.g., jogging, cycling)</option>
-                        <option value="5">5 (Intense activity, e.g., 45min football, heavy workout)</option>
+                        <option value="1">1 (10m walk)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (45min football)</option>
                     </select>
                 </div>
                 <div>
                     <label for="brainActivity" class="form-label">Brain Activity (1-5):</label>
                     <select id="brainActivity" class="form-select" required>
-                        <option value="1">1 (Passive consumption, e.g., comprehending a comment)</option>
-                        <option value="2">2 (Light engagement, e.g., casual reading, simple planning)</option>
-                        <option value="3">3 (Moderate focus, e.g., learning new concept, light problem-solving)</option>
-                        <option value="4">4 (High concentration, e.g., complex reading, strategic planning)</option>
-                        <option value="5">5 (Intense focus, e.g., 3hrs hardcore problem solving, coding, deep work)</option>
+                        <option value="1">1 (Comprehending comment)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (3hrs hardcore problem solving/focused work)</option>
                     </select>
                 </div>
                 <div class="md:col-span-2 flex justify-center mt-4">
@@ -419,19 +383,6 @@
                     </ul>
                 </div>
             </div>
-            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Activity Distribution</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <h4 class="text-lg font-semibold text-blue-700 mb-2">Physical Activity Levels:</h4>
-                    <ul id="physicalActivityDistributionList" class="list-disc list-inside text-slate-700"></ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-blue-700 mb-2">Brain Activity Levels:</h4>
-                    <ul id="brainActivityDistributionList" class="list-disc list-inside text-slate-700"></ul>
-                </div>
-            </div>
-            <h3 class="text-xl font-bold text-center text-slate-800 mt-8 mb-4">Mood Distribution</h3>
-            <ul id="moodDistributionList" class="list-disc list-inside text-slate-700 text-center"></ul>
         </div>
 
         <div id="settingsSection" class="content-section hidden">
@@ -457,10 +408,6 @@
                         <label for="weightDopaminePenalty" class="form-label">Dopamine Penalty (per level):</label>
                         <input type="number" id="weightDopaminePenalty" class="form-input" step="1" min="0" required>
                     </div>
-                    <div>
-                        <label for="weightGoalCompletionBonus" class="form-label">Goal Completion Bonus:</label>
-                        <input type="number" id="weightGoalCompletionBonus" class="form-input" step="1" min="0" required>
-                    </div>
                     <div class="md:col-span-2 flex justify-center mt-4">
                         <button type="submit" class="btn btn-primary w-full md:w-auto">Update Weights</button>
                     </div>
@@ -485,18 +432,6 @@
     <!-- Custom Message Box -->
     <div id="messageBox" class="message-box"></div>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h3>Confirm Action</h3>
-            <p id="modalMessage">Are you sure you want to proceed?</p>
-            <div class="modal-buttons">
-                <button id="modalConfirmBtn" class="btn btn-danger">Yes, I'm Sure</button>
-                <button id="modalCancelBtn" class="btn btn-secondary">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // --- Configuration for Scoring Weights (Default Values) ---
         let SCORING_WEIGHTS = {
@@ -504,7 +439,7 @@
             "physical_activity": 10,
             "brain_activity": 15,
             "dopamine_penalty": 5,
-            "goal_completion_bonus": 50
+            "goal_completion_bonus": 50 // New: Bonus for completing daily goals
         };
 
         // --- Emoji Mappings for Visual Feedback ---
@@ -548,7 +483,7 @@
             1500: "Adept",
             3000: "Master",
             5000: "Grandmaster",
-            10000: "Legend"
+            10000: "Legend" // Added new level
         };
 
         const ACHIEVEMENTS = [
@@ -558,11 +493,10 @@
             {"name": "Mind Marathoner", "threshold": 1500, "type": "cumulative_score", "emoji": "🧠"},
             {"name": "Dopamine Dominator", "threshold": 3000, "type": "cumulative_score", "emoji": "👑"},
             {"name": "Unstoppable Force", "threshold": 5000, "type": "cumulative_score", "emoji": "✨"},
-            {"name": "7-Day Streak", "threshold": 7, "type": "streak", "emoji": "🗓️"},
-            {"name": "Brainiac", "threshold": 20, "type": "total_brain_activity", "emoji": "💡"},
-            {"name": "Fitness Fanatic", "threshold": 20, "type": "total_physical_activity", "emoji": "💪"},
-            {"name": "Goal Getter", "threshold": 10, "type": "goals_completed", "emoji": "✅"},
-            {"name": "Consistent Journaler", "threshold": 30, "type": "days_logged", "emoji": "✍️"} // New: Log 30 distinct days
+            {"name": "7-Day Streak", "threshold": 7, "type": "streak", "emoji": "🗓️"}, // New achievement type
+            {"name": "Brainiac", "threshold": 20, "type": "total_brain_activity", "emoji": "💡"}, // New achievement type
+            {"name": "Fitness Fanatic", "threshold": 20, "type": "total_physical_activity", "emoji": "💪"}, // New achievement type
+            {"name": "Goal Getter", "threshold": 10, "type": "goals_completed", "emoji": "✅"} // New achievement type
         ];
 
         // --- Journal Classes (JavaScript Equivalent) ---
@@ -589,7 +523,7 @@
                 );
 
                 const dopamineAdjustedScore = productiveScore - (this.dopamineLevel * SCORING_WEIGHTS["dopamine_penalty"]);
-                const finalScore = sign * dopamineAdjustedScore; // Apply sign after dopamine adjustment
+                const finalScore = sign * dopamineAdjustedScore;
                 return parseFloat(finalScore.toFixed(2));
             }
         }
@@ -611,7 +545,6 @@
                 // Add bonus for completed goals
                 const completedGoalsCount = this.goals.filter(goal => goal.completed).length;
                 this.totalDailyGrowthScore += completedGoalsCount * SCORING_WEIGHTS["goal_completion_bonus"];
-                this.totalDailyGrowthScore = parseFloat(this.totalDailyGrowthScore.toFixed(2));
             }
 
             addTask(task) {
@@ -740,15 +673,13 @@
             updateDailyGoals(date, goals) {
                 const daily = this.getOrCreateDailyData(date);
                 daily.goals = goals;
-                daily.calculateSummary(); // Recalculate daily score for goal bonus
-                this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0); // Recalculate total
                 this._saveState();
             }
 
             addJournalEntry(date, entry) {
                 const daily = this.getOrCreateDailyData(date);
                 daily.addTask(entry);
-                this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0); // Recalculate total
+                this.totalGrowthScore += entry.growthScore; // Update total score from task
                 this._saveState();
             }
 
@@ -772,7 +703,7 @@
             }
 
             getOverallGrowthScore() {
-                return parseFloat(this.totalGrowthScore.toFixed(2));
+                return this.totalGrowthScore;
             }
 
             getCurrentLevel() {
@@ -829,7 +760,6 @@
                     sum + daily.tasks.reduce((taskSum, task) => taskSum + task.physicalActivity, 0), 0);
                 const totalGoalsCompleted = Object.values(this.dailyData).reduce((sum, daily) =>
                     sum + daily.goals.filter(goal => goal.completed).length, 0);
-                const daysLogged = Object.keys(this.dailyData).length;
 
                 for (const achievement of ACHIEVEMENTS) {
                     if (!this.unlockedAchievements.includes(achievement.name)) {
@@ -842,8 +772,6 @@
                         } else if (achievement.type === "total_physical_activity" && totalPhysicalActivity >= achievement.threshold) {
                             newlyUnlocked.push(achievement);
                         } else if (achievement.type === "goals_completed" && totalGoalsCompleted >= achievement.threshold) {
-                            newlyUnlocked.push(achievement);
-                        } else if (achievement.type === "days_logged" && daysLogged >= achievement.threshold) {
                             newlyUnlocked.push(achievement);
                         }
                     }
@@ -951,60 +879,22 @@
                 return mostCommonMood ? `${EMOJIS.mood[parseInt(mostCommonMood)]} (${mostCommonMood}/5)` : "N/A";
             }
 
-            getMoodDistribution() {
-                const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-                let totalMoods = 0;
-                for (const date in this.dailyData) {
-                    const mood = this.dailyData[date].mood;
-                    if (mood) {
-                        distribution[mood]++;
-                        totalMoods++;
-                    }
-                }
-                const result = {};
-                for (const mood in distribution) {
-                    result[mood] = totalMoods > 0 ? parseFloat(((distribution[mood] / totalMoods) * 100).toFixed(1)) : 0;
-                }
-                return result;
-            }
-
-            getActivityDistribution(activityType) { // 'physicalActivity' or 'brainActivity'
-                const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-                let totalActivities = 0;
-                for (const date in this.dailyData) {
-                    this.dailyData[date].tasks.forEach(task => {
-                        const activityLevel = task[activityType];
-                        if (activityLevel) {
-                            distribution[activityLevel]++;
-                            totalActivities++;
-                        }
-                    });
-                }
-                const result = {};
-                for (const level in distribution) {
-                    result[level] = totalActivities > 0 ? parseFloat(((distribution[level] / totalActivities) * 100).toFixed(1)) : 0;
-                }
-                return result;
-            }
-
-
             getTopAndBottomTasks(count = 3) {
-                const taskScores = {}; // { taskDescription: { sum: 0, count: 0 }}
+                const taskScores = {}; // { taskDescription: [score1, score2, ...]}
 
                 for (const date in this.dailyData) {
                     this.dailyData[date].tasks.forEach(task => {
                         if (!taskScores[task.taskDescription]) {
-                            taskScores[task.taskDescription] = { sum: 0, count: 0 };
+                            taskScores[task.taskDescription] = [];
                         }
-                        taskScores[task.taskDescription].sum += task.growthScore;
-                        taskScores[task.taskDescription].count += 1;
+                        taskScores[task.taskDescription].push(task.growthScore);
                     });
                 }
 
                 const averagedTaskScores = [];
                 for (const taskDesc in taskScores) {
-                    const { sum, count } = taskScores[taskDesc];
-                    const averageScore = sum / count;
+                    const scores = taskScores[taskDesc];
+                    const averageScore = scores.reduce((sum, s) => sum + s, 0) / scores.length;
                     averagedTaskScores.push({ description: taskDesc, averageScore: parseFloat(averageScore.toFixed(2)) });
                 }
 
@@ -1020,8 +910,17 @@
             updateScoringWeights(newWeights) {
                 this.scoringWeights = { ...newWeights };
                 Object.assign(SCORING_WEIGHTS, this.scoringWeights); // Update global for current calculations
-                // Note: Existing task scores are NOT recalculated with new weights.
-                // Only new tasks will use these updated weights.
+                // Recalculate all existing task scores based on new weights
+                // This is a heavy operation, consider if needed or just apply to new tasks
+                // For simplicity, we'll just apply to new tasks for now.
+                // If full recalculation is needed:
+                // for (const date in this.dailyData) {
+                //     this.dailyData[date].tasks.forEach(task => {
+                //         task.growthScore = task._calculateGrowthScore(); // Re-calculate score
+                //     });
+                //     this.dailyData[date].calculateSummary(); // Recalculate daily summary
+                // }
+                // this.totalGrowthScore = Object.values(this.dailyData).reduce((sum, d) => sum + d.totalDailyGrowthScore, 0);
                 this._saveState();
                 showMessage("Scoring weights updated! New tasks will use these weights.");
             }
@@ -1058,10 +957,12 @@
             }
 
             clearAllData() {
-                localStorage.removeItem('dopamineJournalState');
-                this._initializeNewState();
-                initializeUI();
-                showMessage("All journal data cleared!", 'success');
+                if (confirm("Are you sure you want to clear ALL journal data? This cannot be undone!")) {
+                    localStorage.removeItem('dopamineJournalState');
+                    this._initializeNewState();
+                    initializeUI();
+                    showMessage("All journal data cleared!", 'success');
+                }
             }
         }
 
@@ -1125,10 +1026,6 @@
         const periodSummaryOutput = document.getElementById('periodSummaryOutput');
         const topTasksList = document.getElementById('topTasksList');
         const bottomTasksList = document.getElementById('bottomTasksList');
-        const physicalActivityDistributionList = document.getElementById('physicalActivityDistributionList');
-        const brainActivityDistributionList = document.getElementById('brainActivityDistributionList');
-        const moodDistributionList = document.getElementById('moodDistributionList');
-
 
         // Settings Section
         const weightsForm = document.getElementById('weightsForm');
@@ -1136,18 +1033,12 @@
         const weightPhysicalActivityInput = document.getElementById('weightPhysicalActivity');
         const weightBrainActivityInput = document.getElementById('weightBrainActivity');
         const weightDopaminePenaltyInput = document.getElementById('weightDopaminePenalty');
-        const weightGoalCompletionBonusInput = document.getElementById('weightGoalCompletionBonus'); // New input
         const exportDataBtn = document.getElementById('exportDataBtn');
         const importFileInput = document.getElementById('importFileInput');
         const importDataBtn = document.getElementById('importDataBtn');
         const clearAllDataBtn = document.getElementById('clearAllDataBtn');
 
         const messageBox = document.getElementById('messageBox');
-        const confirmationModal = document.getElementById('confirmationModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const modalCancelBtn = document.getElementById('modalCancelBtn');
-
 
         // --- Helper Functions ---
         function showMessage(message, type = 'success') {
@@ -1172,27 +1063,6 @@
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const day = String(d.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
-        }
-
-        function showConfirmationModal(msg, onConfirm) {
-            modalMessage.textContent = msg;
-            confirmationModal.classList.remove('hidden');
-
-            const confirmHandler = () => {
-                onConfirm();
-                confirmationModal.classList.add('hidden');
-                modalConfirmBtn.removeEventListener('click', confirmHandler);
-                modalCancelBtn.removeEventListener('click', cancelHandler);
-            };
-
-            const cancelHandler = () => {
-                confirmationModal.classList.add('hidden');
-                modalConfirmBtn.removeEventListener('click', confirmHandler);
-                modalCancelBtn.removeEventListener('click', cancelHandler);
-            };
-
-            modalConfirmBtn.addEventListener('click', confirmHandler);
-            modalCancelBtn.addEventListener('click', cancelHandler);
         }
 
         // --- UI Update Functions ---
@@ -1384,44 +1254,13 @@
                     bottomTasksList.appendChild(li);
                 });
             }
-
-            // Update Activity Distribution
-            physicalActivityDistributionList.innerHTML = '';
-            const physicalDist = journal.getActivityDistribution('physicalActivity');
-            for (const level in physicalDist) {
-                const li = document.createElement('li');
-                li.textContent = `Level ${level}: ${physicalDist[level]}%`;
-                physicalActivityDistributionList.appendChild(li);
-            }
-            if (Object.keys(physicalDist).length === 0) physicalActivityDistributionList.innerHTML = '<li>No data.</li>';
-
-            brainActivityDistributionList.innerHTML = '';
-            const brainDist = journal.getActivityDistribution('brainActivity');
-            for (const level in brainDist) {
-                const li = document.createElement('li');
-                li.textContent = `Level ${level}: ${brainDist[level]}%`;
-                brainActivityDistributionList.appendChild(li);
-            }
-            if (Object.keys(brainDist).length === 0) brainActivityDistributionList.innerHTML = '<li>No data.</li>';
-
-            // Update Mood Distribution
-            moodDistributionList.innerHTML = '';
-            const moodDist = journal.getMoodDistribution();
-            for (const mood in moodDist) {
-                const li = document.createElement('li');
-                li.textContent = `${EMOJIS.mood[mood]} (Level ${mood}): ${moodDist[mood]}%`;
-                moodDistributionList.appendChild(li);
-            }
-            if (Object.keys(moodDist).length === 0) moodDistributionList.innerHTML = '<li>No data.</li>';
         }
-
 
         function loadScoringWeightsToForm() {
             weightTimeTakenInput.value = journal.scoringWeights.time_taken;
             weightPhysicalActivityInput.value = journal.scoringWeights.physical_activity;
             weightBrainActivityInput.value = journal.scoringWeights.brain_activity;
             weightDopaminePenaltyInput.value = journal.scoringWeights.dopamine_penalty;
-            weightGoalCompletionBonusInput.value = journal.scoringWeights.goal_completion_bonus;
         }
 
         // --- Event Listeners ---
@@ -1440,23 +1279,6 @@
         // Update currentTaskDateSpan when entryDateInput changes
         entryDateInput.addEventListener('change', () => {
             currentTaskDateSpan.textContent = entryDateInput.value;
-            // When date changes, load existing mood/goals if available
-            const dailyData = journal.dailyData[entryDateInput.value];
-            if (dailyData) {
-                dailyMoodValueInput.value = dailyData.mood || '';
-                moodSelector.querySelectorAll('.mood-btn').forEach(btn => {
-                    if (parseInt(btn.dataset.mood) === dailyData.mood) {
-                        btn.classList.add('selected');
-                    } else {
-                        btn.classList.remove('selected');
-                    }
-                });
-                dailyGoalsInput.value = dailyData.goals.map(g => g.text).join('\n');
-            } else {
-                dailyMoodValueInput.value = '';
-                moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
-                dailyGoalsInput.value = '';
-            }
         });
 
         // Mood Selector
@@ -1476,12 +1298,6 @@
             const goalsText = dailyGoalsInput.value.trim();
             const goals = goalsText ? goalsText.split('\n').map(g => ({ text: g.trim(), completed: false })) : [];
 
-            // Check if mood is selected
-            if (!mood) {
-                showMessage("Please select your daily mood!", 'error');
-                return;
-            }
-
             // Check if daily data already exists for this date
             const existingDaily = journal.dailyData[date];
             if (existingDaily) {
@@ -1497,10 +1313,10 @@
                 showMessage(`Daily info for ${date} saved!`);
             }
             // Clear goals input after saving
-            // dailyGoalsInput.value = ''; // Keep goals for easy editing
+            dailyGoalsInput.value = '';
             // Deselect mood buttons
-            // moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
-            // dailyMoodValueInput.value = '';
+            moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+            dailyMoodValueInput.value = '';
 
             // Update streak and achievements based on potential goal completion
             journal.updateStreak(date);
@@ -1616,7 +1432,7 @@
                 physical_activity: parseInt(weightPhysicalActivityInput.value),
                 brain_activity: parseInt(weightBrainActivityInput.value),
                 dopamine_penalty: parseInt(weightDopaminePenaltyInput.value),
-                goal_completion_bonus: parseInt(weightGoalCompletionBonusInput.value)
+                goal_completion_bonus: journal.scoringWeights.goal_completion_bonus // Keep this from original
             };
             journal.updateScoringWeights(newWeights);
             updateGameStatsDisplay(); // Recalculate and update if total score changed
@@ -1634,51 +1450,11 @@
             }
         });
 
-        clearAllDataBtn.addEventListener('click', () => {
-            showConfirmationModal("Are you sure you want to clear ALL journal data? This cannot be undone!", () => {
-                journal.clearAllData();
-            });
-        });
+        clearAllDataBtn.addEventListener('click', () => journal.clearAllData());
 
 
         // Initialize UI on page load
-        function initializeUI() {
-            // Set today's date as default for input fields
-            const today = formatDate(new Date());
-            entryDateInput.value = today;
-            journalDateFilter.value = today;
-            currentTaskDateSpan.textContent = today;
-
-            // Load existing mood/goals for today if available
-            const dailyData = journal.dailyData[today];
-            if (dailyData) {
-                dailyMoodValueInput.value = dailyData.mood || '';
-                moodSelector.querySelectorAll('.mood-btn').forEach(btn => {
-                    if (parseInt(btn.dataset.mood) === dailyData.mood) {
-                        btn.classList.add('selected');
-                    } else {
-                        btn.classList.remove('selected');
-                    }
-                });
-                dailyGoalsInput.value = dailyData.goals.map(g => g.text).join('\n');
-            } else {
-                dailyMoodValueInput.value = '';
-                moodSelector.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
-                dailyGoalsInput.value = '';
-            }
-
-            // Initial display
-            showSection('addEntrySection');
-            updateJournalDisplay();
-            updateGameStatsDisplay();
-            journal.checkAndUnlockAchievements(); // Check achievements on page load
-        }
-
         document.addEventListener('DOMContentLoaded', initializeUI);
-  <script type="module">
-    import { inject } from 'https://vercel.com/analytics/script';
-    inject();
-  </script>
-
+    </script>
 </body>
 </html>
